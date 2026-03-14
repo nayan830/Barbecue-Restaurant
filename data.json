@@ -70,7 +70,7 @@
     {
       "category": "Roti",
       "items": [
-        { "name": "Tandoori ruti (1P)",    "price": 20, "emoji": "🫓", "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop&auto=format" },
+        { "name": "Tandoori ruti (1P)",    "price": 10000, "emoji": "🫓", "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop&auto=format" },
         { "name": "Tandoori Butter ruti",  "price": 25, "emoji": "🧈", "image": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=300&fit=crop&auto=format" },
         { "name": "Butter garlic naan",    "price": 40, "emoji": "🧄", "image": "https://images.unsplash.com/photo-1619894991209-9f9694be045a?w=400&h=300&fit=crop&auto=format" }
       ]
