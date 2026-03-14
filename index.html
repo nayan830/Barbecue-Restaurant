@@ -629,138 +629,24 @@ function addToCart(name,price,emoji,btn){
 }
 
 /* ════════════════════════════════════════
-   MENU DATA with Unsplash images + emojis
+   LOAD MENU DYNAMICALLY FROM data.json
 ════════════════════════════════════════ */
-const IMG = {
-  // BIRYANI
-  'Chicken Biriyani':   'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=300&fit=crop&auto=format',
-  'Mutton Biriyani':    'https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&h=300&fit=crop&auto=format',
-  // RICE
-  'Egg fried rice':     'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&h=300&fit=crop&auto=format',
-  'Chicken fried rice': 'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=400&h=300&fit=crop&auto=format',
-  'Mixed fried rice':   'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop&auto=format',
-  'Egg chicken schezwan rice':'https://images.unsplash.com/photo-1585325701956-60dd9c8553bc?w=400&h=300&fit=crop&auto=format',
-  'Veg fried rice':     'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop&auto=format',
-  // NON VEG
-  'Chicken kosha (1P)': 'https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&h=300&fit=crop&auto=format',
-  'Chicken butter masala':'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&h=300&fit=crop&auto=format',
-  'Mutton kosha (1P)':  'https://images.unsplash.com/photo-1545247181-516773cae754?w=400&h=300&fit=crop&auto=format',
-  'Egg Bharda':         'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&h=300&fit=crop&auto=format',
-  'Paneer butter masala':'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&h=300&fit=crop&auto=format',
-  // ROTI
-  'Tandoori ruti (1P)': 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop&auto=format',
-  'Tandoori Butter ruti':'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=300&fit=crop&auto=format',
-  'Butter garlic naan': 'https://images.unsplash.com/photo-1619894991209-9f9694be045a?w=400&h=300&fit=crop&auto=format',
-  // COFFEE / SHAKES
-  'Hot coffee':         'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop&auto=format',
-  'Black coffee':       'https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=400&h=300&fit=crop&auto=format',
-  'Cold coffee':        'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop&auto=format',
-  'Oreo milkshake':     'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop&auto=format',
-  'Hot chocolate':      'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=400&h=300&fit=crop&auto=format',
-  'Mango juicy':        'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400&h=300&fit=crop&auto=format',
-  'Lassi':              'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=300&fit=crop&auto=format',
-  // SNACKS
-  'Fried chicken (6P)': 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop&auto=format',
-  'Chicken satay (2P)': 'https://images.unsplash.com/photo-1529042410759-befb1204b468?w=400&h=300&fit=crop&auto=format',
-  'Chicken lollipop (2P)':'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=400&h=300&fit=crop&auto=format',
-  'Chicken lollipop (4P)':'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=400&h=300&fit=crop&auto=format',
-  'Chicken popcorn (10P)':'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&h=300&fit=crop&auto=format',
-  'Drumstick Lollipop (4P)':'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=400&h=300&fit=crop&auto=format',
-  'Crispy chicken':     'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400&h=300&fit=crop&auto=format',
-  'Burger':             'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop&auto=format',
-  'Chicken finger (10P)':'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&h=300&fit=crop&auto=format',
-  // SOFT DRINKS
-  'Coca-Cola':          'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=300&fit=crop&auto=format',
-  'Sprite':             'https://images.unsplash.com/photo-1581636625402-29b2a704ef13?w=400&h=300&fit=crop&auto=format',
-  'Water (500ml)':      'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&h=300&fit=crop&auto=format',
-  'Water (1L)':         'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&h=300&fit=crop&auto=format',
-  // MOMO
-  'Momo (6P)':          'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?w=400&h=300&fit=crop&auto=format',
-  'Fried momo (6P)':    'https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=400&h=300&fit=crop&auto=format',
-  'Chicken Pan fry (8P)':'https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=400&h=300&fit=crop&auto=format',
-  'Egg roll':           'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&h=300&fit=crop&auto=format',
-  'Chicken egg roll':   'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&h=300&fit=crop&auto=format',
-  // PASTA
-  'Egg chicken pasta':  'https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=400&h=300&fit=crop&auto=format',
-  'Mix pasta':          'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=300&fit=crop&auto=format',
-  // PIZZA
-  'Chicken pizza':      'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop&auto=format',
-  'Veg pizza':          'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&h=300&fit=crop&auto=format',
-  // CHINESE
-  'Egg chicken chowmein':'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop&auto=format',
-  'Mix chowmein':       'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=400&h=300&fit=crop&auto=format',
-  'Egg chowmein':       'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop&auto=format',
-  'Chilli chicken gravy':'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=300&fit=crop&auto=format',
-  'Chilli chicken dry': 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=300&fit=crop&auto=format',
-  'Schezwan chowmein':  'https://images.unsplash.com/photo-1585325701956-60dd9c8553bc?w=400&h=300&fit=crop&auto=format',
-  // TANDOORI
-  'Chicken tandoori half':'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=300&fit=crop&auto=format',
-  'Chicken tandoori full':'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=300&fit=crop&auto=format',
-  'Chicken tikka kabab':'https://images.unsplash.com/photo-1545247181-516773cae754?w=400&h=300&fit=crop&auto=format',
-};
-
-// Item emoji map
-const IEMOJI = {
-  'Biryani':'🍛','Rice':'🍚','Non Veg Main':'🍖','Roti':'🫓','Shakes & Coffee':'☕','Snacks':'🍗','Soft Drinks':'🥤','Momo':'🥟','Pasta':'🍝','Pizza':'🍕','Chinese':'🍜','Tandoori':'🔥'
-};
-const IIEMOJI = {
-  'Chicken Biriyani':'🍛','Mutton Biriyani':'🍛','Egg fried rice':'🍳','Chicken fried rice':'🍚','Mixed fried rice':'🍚','Veg fried rice':'🥗','Egg chicken schezwan rice':'🌶️',
-  'Chicken kosha (1P)':'🍗','Chicken butter masala':'🧈','Mutton kosha (1P)':'🍖','Egg Bharda':'🥚','Paneer butter masala':'🧀',
-  'Tandoori ruti (1P)':'🫓','Tandoori Butter ruti':'🧈','Butter garlic naan':'🧄',
-  'Hot coffee':'☕','Black coffee':'☕','Cold coffee':'🥤','Oreo milkshake':'🥛','Hot chocolate':'🍫','Mango juicy':'🥭','Lassi':'🥛',
-  'Fried chicken (6P)':'🍗','Chicken satay (2P)':'🍢','Chicken lollipop (2P)':'🍗','Chicken lollipop (4P)':'🍗','Chicken popcorn (10P)':'🍿','Drumstick Lollipop (4P)':'🍗','Crispy chicken':'🍗','Burger':'🍔','Chicken finger (10P)':'🌭',
-  'Coca-Cola':'🥤','Sprite':'🥤','Water (500ml)':'💧','Water (1L)':'💧',
-  'Momo (6P)':'🥟','Fried momo (6P)':'🥟','Chicken Pan fry (8P)':'🥟','Egg roll':'🌯','Chicken egg roll':'🌯',
-  'Egg chicken pasta':'🍝','Mix pasta':'🍝',
-  'Chicken pizza':'🍕','Veg pizza':'🍕',
-  'Egg chicken chowmein':'🍜','Mix chowmein':'🍜','Egg chowmein':'🍜','Chilli chicken gravy':'🌶️','Chilli chicken dry':'🌶️','Schezwan chowmein':'🌶️',
-  'Chicken tandoori half':'🔥','Chicken tandoori full':'🔥','Chicken tikka kabab':'🍢'
-};
-
-// Fallback category images
-const CAT_IMG = {
-  'Biryani':        'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=300&fit=crop&auto=format',
-  'Rice':           'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&h=300&fit=crop&auto=format',
-  'Non Veg Main':   'https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&h=300&fit=crop&auto=format',
-  'Roti':           'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop&auto=format',
-  'Shakes & Coffee':'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop&auto=format',
-  'Snacks':         'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop&auto=format',
-  'Soft Drinks':    'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=300&fit=crop&auto=format',
-  'Momo':           'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?w=400&h=300&fit=crop&auto=format',
-  'Pasta':          'https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=400&h=300&fit=crop&auto=format',
-  'Pizza':          'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop&auto=format',
-  'Chinese':        'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop&auto=format',
-  'Tandoori':       'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=300&fit=crop&auto=format',
-};
-
-const menuData=[
-  {"category":"Biryani","items":[{"name":"Chicken Biriyani","price":110},{"name":"Mutton Biriyani","price":190}]},
-  {"category":"Rice","items":[{"name":"Egg fried rice","price":100},{"name":"Chicken fried rice","price":120},{"name":"Mixed fried rice","price":150},{"name":"Egg chicken schezwan rice","price":140},{"name":"Veg fried rice","price":80}]},
-  {"category":"Non Veg Main","items":[{"name":"Chicken kosha (1P)","price":70},{"name":"Chicken butter masala","price":150},{"name":"Mutton kosha (1P)","price":120},{"name":"Egg Bharda","price":80},{"name":"Paneer butter masala","price":200}]},
-  {"category":"Roti","items":[{"name":"Tandoori ruti (1P)","price":20},{"name":"Tandoori Butter ruti","price":25},{"name":"Butter garlic naan","price":40}]},
-  {"category":"Shakes & Coffee","items":[{"name":"Hot coffee","price":40},{"name":"Black coffee","price":20},{"name":"Cold coffee","price":90},{"name":"Oreo milkshake","price":130},{"name":"Hot chocolate","price":130},{"name":"Mango juicy","price":100},{"name":"Lassi","price":60}]},
-  {"category":"Snacks","items":[{"name":"Fried chicken (6P)","price":120},{"name":"Chicken satay (2P)","price":140},{"name":"Chicken lollipop (2P)","price":70},{"name":"Chicken lollipop (4P)","price":140},{"name":"Chicken popcorn (10P)","price":120},{"name":"Drumstick Lollipop (4P)","price":150},{"name":"Crispy chicken","price":150},{"name":"Burger","price":90},{"name":"Chicken finger (10P)","price":200}]},
-  {"category":"Soft Drinks","items":[{"name":"Coca-Cola","price":40},{"name":"Sprite","price":40},{"name":"Water (500ml)","price":10},{"name":"Water (1L)","price":20}]},
-  {"category":"Momo","items":[{"name":"Momo (6P)","price":50},{"name":"Fried momo (6P)","price":70},{"name":"Chicken Pan fry (8P)","price":100},{"name":"Egg roll","price":40},{"name":"Chicken egg roll","price":80}]},
-  {"category":"Pasta","items":[{"name":"Egg chicken pasta","price":110},{"name":"Mix pasta","price":150}]},
-  {"category":"Pizza","items":[{"name":"Chicken pizza","price":250},{"name":"Veg pizza","price":200}]},
-  {"category":"Chinese","items":[{"name":"Egg chicken chowmein","price":110},{"name":"Mix chowmein","price":150},{"name":"Egg chowmein","price":70},{"name":"Chilli chicken gravy","price":120},{"name":"Chilli chicken dry","price":160},{"name":"Schezwan chowmein","price":140}]},
-  {"category":"Tandoori","items":[{"name":"Chicken tandoori half","price":240},{"name":"Chicken tandoori full","price":480},{"name":"Chicken tikka kabab","price":200}]}
-];
-
-(function renderMenu(){
-  const c=document.getElementById('menu-grid-container');
-  let h='';
-  menuData.forEach(cat=>{
-    const catEmoji = IEMOJI[cat.category]||'🍽️';
-    h+=`<div class="category-header"><span class="cat-emoji">${catEmoji}</span>${cat.category}</div>`;
-    cat.items.forEach(item=>{
-      const imgUrl = IMG[item.name] || CAT_IMG[cat.category] || `https://placehold.co/400x300/D2691E/white?text=${encodeURIComponent(item.name.substring(0,12))}`;
-      const emoji  = IIEMOJI[item.name] || catEmoji;
-      const safeName = item.name.replace(/'/g,"\\'");
-      h+=`<div class="food-card">
+function renderMenu(data) {
+  const c = document.getElementById('menu-grid-container');
+  const { menu, categoryEmojis, categoryImages } = data;
+  let h = '';
+  menu.forEach(cat => {
+    const catEmoji  = categoryEmojis[cat.category]  || '🍽️';
+    const catImgFb  = categoryImages[cat.category]  || '';
+    h += `<div class="category-header"><span class="cat-emoji">${catEmoji}</span>${cat.category}</div>`;
+    cat.items.forEach(item => {
+      const imgUrl   = item.image || catImgFb || `https://placehold.co/400x300/D2691E/white?text=${encodeURIComponent(item.name.substring(0,12))}`;
+      const emoji    = item.emoji || catEmoji;
+      const safeName = item.name.replace(/'/g, "\\'");
+      const fallback = `https://placehold.co/400x300/D2691E/white?text=${encodeURIComponent(item.name.substring(0,12))}`;
+      h += `<div class="food-card">
         <div class="food-img">
-          <img src="${imgUrl}" alt="${item.name}" loading="lazy" onerror="this.src='https://placehold.co/400x300/D2691E/white?text=${encodeURIComponent(item.name.substring(0,12))}'">
+          <img src="${imgUrl}" alt="${item.name}" loading="lazy" onerror="this.src='${fallback}'">
           <div class="emoji-tag">${emoji}</div>
         </div>
         <div class="food-info">
@@ -776,8 +662,23 @@ const menuData=[
       </div>`;
     });
   });
-  c.innerHTML=h;
-})();
+  c.innerHTML = h;
+}
+
+/* Fetch product data from data.json */
+fetch('data.json')
+  .then(res => {
+    if (!res.ok) throw new Error('Could not load data.json — status ' + res.status);
+    return res.json();
+  })
+  .then(data => {
+    renderMenu(data);
+  })
+  .catch(err => {
+    console.error('Menu load error:', err);
+    document.getElementById('menu-grid-container').innerHTML =
+      '<p style="grid-column:1/-1;text-align:center;color:#B85E1A;padding:30px;font-weight:700;">⚠️ Could not load menu. Please make sure data.json is in the same folder as this HTML file and open via a local server.</p>';
+  });
 
 /* ════════════════════════════════════════
    WHATSAPP ORDER
