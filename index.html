@@ -1,141 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barbeque Restaurant</title>
+
+<style>
+
+body{
+font-family:Arial, sans-serif;
+background:#f7f3ed;
+margin:0;
+padding:0;
+}
+
+header{
+background:#3c2a1f;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+.menu-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:30px;
+}
+
+.category-title{
+grid-column:1/-1;
+font-size:24px;
+font-weight:bold;
+margin-top:30px;
+border-bottom:2px solid #d2691e;
+padding-bottom:5px;
+}
+
+.food-card{
+background:white;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.food-card img{
+width:100%;
+height:150px;
+object-fit:cover;
+}
+
+.food-info{
+padding:15px;
+}
+
+.food-name{
+font-weight:bold;
+margin-bottom:5px;
+}
+
+.food-price{
+color:#d2691e;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.add-btn{
+background:#d2691e;
+color:white;
+border:none;
+padding:8px 15px;
+cursor:pointer;
+border-radius:5px;
+}
+
+.add-btn:hover{
+background:#a94e12;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🔥 BARBEQUE RESTAURANT</h1>
+<p>Fast Food Restaurant</p>
+</header>
+
+<div id="menu-grid-container" class="menu-grid"></div>
+
 <script>
 
-/* ===============================
-   CART SYSTEM
-================================*/
-let cart=[];
-
-const cartCont = document.getElementById('cart-list-container');
-const cartSum  = document.getElementById('cart-summary');
-const subSpan  = document.getElementById('subtotal-amount');
-const delSpan  = document.getElementById('delivery-amount');
-const totSpan  = document.getElementById('total-amount');
-
-function renderCart() {
-
-  if(!cart.length){
-    cartCont.innerHTML='<div class="empty-cart-message">🛒 Your cart is empty.</div>';
-    cartSum.style.display='none';
-    return;
-  }
-
-  let html='',sub=0;
-
-  cart.forEach((item,i)=>{
-    sub+=item.price;
-
-    html+=`
-    <div class="cart-item">
-
-      <span class="cart-item-name">${item.name}</span>
-
-      <span class="cart-item-price">₹${item.price}</span>
-
-      <button class="remove-item-btn" onclick="removeFromCart(${i})">
-      Remove
-      </button>
-
-    </div>
-    `;
-
-  });
-
-  cartCont.innerHTML=html;
-
-  subSpan.innerText=`₹${sub}`;
-  delSpan.innerText='₹20';
-  totSpan.innerText=`₹${sub+20}`;
-
-  cartSum.style.display='block';
-}
-
-function removeFromCart(i){
-  cart.splice(i,1);
-  renderCart();
-}
-
-function addToCart(name,price){
-
-  cart.push({name,price});
-
-  renderCart();
-
-  document.getElementById('order-now')
-  .scrollIntoView({behavior:'smooth'});
-}
-
-
-/* =================================
-   LOAD MENU FROM data.json
-=================================*/
+/* =============================
+   LOAD MENU FROM JSON
+=============================*/
 
 async function loadMenu(){
 
-  try{
+const response = await fetch("data.json");
 
-    const response = await fetch("data.json");
+const data = await response.json();
 
-    const data = await response.json();
+const container = document.getElementById("menu-grid-container");
 
-    const container =
-    document.getElementById("menu-grid-container");
+let html = "";
 
-    let html="";
+data.menu.forEach(category => {
 
-    data.menu.forEach(category=>{
+html += `<div class="category-title">${category.category}</div>`;
 
-      html += `
-      <div class="category-header">
-      ${category.category}
-      </div>
-      `;
+category.items.forEach(item => {
 
-      category.items.forEach(item=>{
+html += `
+<div class="food-card">
 
-        html += `
+<img src="${item.image}" alt="${item.name}">
 
-        <div class="food-card">
+<div class="food-info">
 
-          <div class="food-img">
-            <img src="${item.image}" alt="${item.name}">
-          </div>
+<div class="food-name">${item.name}</div>
 
-          <div class="food-info">
+<div class="food-price">₹${item.price}</div>
 
-            <div class="food-name">
-            ${item.name}
-            </div>
+<button class="add-btn"
+onclick="addToCart('${item.name}',${item.price})">
+Add to Cart
+</button>
 
-            <div class="food-price">
-            ₹${item.price}
-            </div>
+</div>
 
-            <button class="add-to-cart-btn"
-            onclick="addToCart('${item.name}',${item.price})">
+</div>
+`;
 
-            Add to Cart
+});
 
-            </button>
+});
 
-          </div>
-
-        </div>
-
-        `;
-
-      });
-
-    });
-
-    container.innerHTML = html;
-
-  }
-
-  catch(error){
-
-    console.error("Menu loading error:",error);
-
-  }
+container.innerHTML = html;
 
 }
 
@@ -143,46 +145,23 @@ loadMenu();
 
 
 
-/* =================================
-   WHATSAPP ORDER
-=================================*/
+/* =============================
+   SIMPLE CART
+=============================*/
 
-function sendWhatsAppOrder(){
+let cart=[];
 
-  const name=document.getElementById('name').value.trim();
-  const phone=document.getElementById('phone').value.trim();
-  const address=document.getElementById('address').value.trim();
+function addToCart(name,price){
 
-  if(!name||!phone||!address)
-  return alert('Please fill all fields');
+cart.push({name,price});
 
-  if(!cart.length)
-  return alert('Cart is empty');
+alert(name+" added to cart");
 
-  let list='';
-  let sub=0;
+console.log(cart);
 
-  cart.forEach((item,i)=>{
-    list+=`${i+1}. ${item.name} - ₹${item.price}\n`;
-    sub+=item.price;
-  });
-
-  const msg=
-  `New Food Order%0A%0A
-Name: ${encodeURIComponent(name)}
-Phone: ${encodeURIComponent(phone)}
-Address: ${encodeURIComponent(address)}
-
-${encodeURIComponent(list)}
-
-Subtotal: ₹${sub}
-Delivery: ₹20
-Total: ₹${sub+20}`;
-
-  window.open(
-  `https://wa.me/917908461601?text=${msg}`,
-  '_blank'
-  );
 }
 
 </script>
+
+</body>
+</html>
