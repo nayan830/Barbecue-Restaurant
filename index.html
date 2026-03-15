@@ -28,10 +28,28 @@ body{font-family:'Nunito',sans-serif;background:#EAD7BD;color:#3E2C1B;line-heigh
   100%{transform:translateY(-110vh) rotate(360deg) scale(1.1);opacity:0}
 }
 
-/* custom cursor */
-.custom-cursor{position:fixed;width:28px;height:28px;border:3px solid #D2691E;border-radius:50%;background:rgba(255,180,70,0.2);pointer-events:none;transform:translate(-50%,-50%);transition:width .1s,height .1s;z-index:9999;mix-blend-mode:difference;box-shadow:0 0 12px #FFB347}
-.cursor-dot{position:fixed;width:6px;height:6px;background:#FF8C42;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);z-index:10000;box-shadow:0 0 8px #FFE45C}
-@media(pointer:coarse){.custom-cursor,.cursor-dot{display:none}}
+/* custom cursor — only ☕ coffee cup, no circle, no dot */
+.custom-cursor{
+  position:fixed;
+  width:auto;height:auto;
+  background:none;border:none;border-radius:0;
+  box-shadow:none;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  z-index:9999;
+  font-size:34px;
+  line-height:1;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+  animation:coffeeWiggle 2.5s infinite ease-in-out;
+  transition:none;
+}
+.custom-cursor::after{ content:none; }
+@keyframes coffeeWiggle{
+  0%,100%{transform:translate(-50%,-50%) rotate(-8deg) scale(1)}
+  50%     {transform:translate(-50%,-50%) rotate(8deg)  scale(1.15)}
+}
+/* hide the dot completely */
+.cursor-dot{ display:none !important; }
 
 .container{width:100%;max-width:1140px;margin:0 auto;padding:0 clamp(12px,4vw,30px);position:relative;z-index:2}
 
@@ -256,7 +274,7 @@ section.container{margin-top:clamp(18px,4vw,34px)}
 <!-- ═══ FLOATING EMOJI BACKGROUND ═══ -->
 <div class="emoji-bg" id="emojiBg"></div>
 
-<div class="custom-cursor" id="customCursor"></div>
+<div class="custom-cursor" id="customCursor">☕</div>
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="nav-overlay" id="navOverlay"></div>
 
@@ -470,10 +488,16 @@ for(let i=0;i<18;i++) { setTimeout(createFloatingEmoji, i * 220); }
    AUTO TODAY'S DAY NAME
 ════════════════════════════════════════ */
 (function setTodayDay() {
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const todayName = days[new Date().getDay()];
+  const now    = new Date();
+  const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+  const dayName   = days[now.getDay()];
+  const date      = now.getDate();
+  const monthName = months[now.getMonth()];
+  const year      = now.getFullYear();
   const el = document.getElementById('todayDay');
-  if (el) el.textContent = '📅 ' + todayName;
+  if (el) el.textContent = `📅 ${dayName}, ${date} ${monthName} ${year}`;
 })();
 
 /* ════════════════════════════════════════
@@ -596,16 +620,27 @@ navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav
 /* ════════════════════════════════════════
    CUSTOM CURSOR
 ════════════════════════════════════════ */
+/* ── CURSOR — ☕ emoji follows mouse + touch ── */
 const cursor = document.getElementById('customCursor');
 const dot    = document.getElementById('cursorDot');
-if (window.matchMedia('(pointer:fine)').matches) {
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = dot.style.left = e.clientX+'px';
-    cursor.style.top  = dot.style.top  = e.clientY+'px';
-  });
-  document.addEventListener('mousedown', () => { cursor.style.width='35px'; cursor.style.height='35px'; cursor.style.background='rgba(210,105,30,.4)'; });
-  document.addEventListener('mouseup',   () => { cursor.style.width='28px'; cursor.style.height='28px'; cursor.style.background='rgba(255,180,70,.2)'; });
+
+function moveCursor(x, y) {
+  cursor.style.left = x + 'px';
+  cursor.style.top  = y + 'px';
 }
+
+/* Desktop mouse */
+document.addEventListener('mousemove', e => moveCursor(e.clientX, e.clientY));
+
+/* Mobile touch */
+document.addEventListener('touchmove', e => {
+  const t = e.touches[0];
+  moveCursor(t.clientX, t.clientY);
+}, { passive: true });
+document.addEventListener('touchstart', e => {
+  const t = e.touches[0];
+  moveCursor(t.clientX, t.clientY);
+}, { passive: true });
 
 /* ════════════════════════════════════════
    SPIN EFFECT ON TITLE 'A' LETTERS
