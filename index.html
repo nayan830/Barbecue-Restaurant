@@ -321,7 +321,7 @@ section.container{margin-top:clamp(18px,4vw,34px)}
         <canvas id="analogClock"></canvas>
       </div>
     </div>
-    <div class="day">📅 Thursday</div>
+    <div class="day" id="todayDay">📅 Loading...</div>
     <div class="hours">⏰ 11:00 AM – 10:00 PM</div>
     <!-- Highlighted Delivery Note -->
     <div class="delivery-highlight">
@@ -465,6 +465,16 @@ function createFloatingEmoji() {
 // Spawn emojis continuously
 setInterval(createFloatingEmoji, 700);
 for(let i=0;i<18;i++) { setTimeout(createFloatingEmoji, i * 220); }
+
+/* ════════════════════════════════════════
+   AUTO TODAY'S DAY NAME
+════════════════════════════════════════ */
+(function setTodayDay() {
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const todayName = days[new Date().getDay()];
+  const el = document.getElementById('todayDay');
+  if (el) el.textContent = '📅 ' + todayName;
+})();
 
 /* ════════════════════════════════════════
    ANALOG CLOCK (canvas, live time)
