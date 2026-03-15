@@ -43,7 +43,7 @@
     {
       "category": "Biryani",
       "items": [
-        { "name": "Chicken Biriyani",  "price": 11, "emoji": "🍛", "image": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=300&fit=crop&auto=format" },
+        { "name": "Chicken Biriyani",  "price": 110, "emoji": "🍛", "image": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=300&fit=crop&auto=format" },
         { "name": "Mutton Biriyani",   "price": 190, "emoji": "🍛", "image": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&h=300&fit=crop&auto=format" }
       ]
     },
